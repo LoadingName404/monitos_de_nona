@@ -1,0 +1,120 @@
+create database holi;
+
+CREATE TABLE `usuario` (
+  `id_usuario` int NOT NULL AUTO_INCREMENT,
+  `nombre_usuario` varchar(50) NOT NULL,
+  `nombre_completo` varchar(250) NOT NULL,
+  `contra` varchar(20) NOT NULL,
+  `cargo` int NOT NULL,
+  PRIMARY KEY (`id_usuario`)
+);
+
+CREATE TABLE `producto` (
+  `id_producto` int NOT NULL AUTO_INCREMENT,
+  `nombre_producto` varchar(255) NOT NULL,
+  `precio_producto` int NOT NULL,
+  PRIMARY KEY (`id_producto`)
+);
+
+CREATE TABLE `venta` (
+  `id_venta` int NOT NULL AUTO_INCREMENT,
+  `id_usuario` int NOT NULL,
+  `fecha` datetime NOT NULL,
+  `total_venta` int NOT NULL,
+  `tipo_documento` varchar(50) NOT NULL,
+  `notadecredito` float DEFAULT NULL,
+  `monto_devuelto` decimal(10,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`id_venta`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
+);
+
+CREATE TABLE `caja` (
+  `id_caja` int NOT NULL AUTO_INCREMENT,
+  `fecha_apertura` datetime NOT NULL,
+  `fecha_cierre` datetime DEFAULT NULL,
+  `monto_inicial` int NOT NULL,
+  `monto_final` int NOT NULL,
+  `descripcion` varchar(250) NOT NULL,
+  `id_usuario` int NOT NULL,
+  `estado` enum('Abierta','Cerrada') NOT NULL,
+  PRIMARY KEY (`id_caja`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `caja_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
+);
+
+CREATE TABLE `informe_ventas` (
+  `id_informe` int NOT NULL AUTO_INCREMENT,
+  `total_boletas` int NOT NULL,
+  `total_facturas` int NOT NULL,
+  `total_ventas` int NOT NULL,
+  `fecha` date NOT NULL,
+  `observacion` varchar(250) NOT NULL,
+  `id_usuario` int NOT NULL,
+  PRIMARY KEY (`id_informe`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `informe_ventas_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
+);
+
+CREATE TABLE `carrito` (
+  `id_carrito` int NOT NULL AUTO_INCREMENT,
+  `id_producto` int NOT NULL,
+  `id_venta` int NOT NULL,
+  `cantidad` int NOT NULL,
+  `total_producto` float NOT NULL,
+  PRIMARY KEY (`id_carrito`),
+  KEY `id_producto` (`id_producto`),
+  KEY `id_venta` (`id_venta`),
+  CONSTRAINT `carrito_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`),
+  CONSTRAINT `carrito_ibfk_2` FOREIGN KEY (`id_venta`) REFERENCES `venta` (`id_venta`)
+);
+
+CREATE TABLE `boleta` (
+  `id_boleta` int NOT NULL AUTO_INCREMENT,
+  `id_venta` int NOT NULL,
+  `total_venta` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id_boleta`),
+  KEY `id_venta` (`id_venta`),
+  CONSTRAINT `boleta_ibfk_1` FOREIGN KEY (`id_venta`) REFERENCES `venta` (`id_venta`)
+);
+
+CREATE TABLE `detalle_boleta` (
+  `id_detalle` int NOT NULL AUTO_INCREMENT,
+  `id_boleta` int NOT NULL,
+  `id_producto` int NOT NULL,
+  `cantidad` int NOT NULL,
+  `total_producto` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id_detalle`),
+  KEY `id_boleta` (`id_boleta`),
+  KEY `id_producto` (`id_producto`),
+  CONSTRAINT `detalle_boleta_ibfk_1` FOREIGN KEY (`id_boleta`) REFERENCES `boleta` (`id_boleta`),
+  CONSTRAINT `detalle_boleta_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`)
+);
+
+CREATE TABLE `factura` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_venta` int NOT NULL,
+  `razon_social` varchar(100) NOT NULL,
+  `rut` varchar(20) NOT NULL,
+  `giro` varchar(100) NOT NULL,
+  `direccion` varchar(200) NOT NULL,
+  `tipo_documento` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_venta` (`id_venta`),
+  CONSTRAINT `factura_ibfk_1` FOREIGN KEY (`id_venta`) REFERENCES `venta` (`id_venta`)
+);
+
+----- valores para tabla usuario y tabla producto -----
+
+INSERT INTO usuario (nombre_usuario, nombre_completo, contra, cargo) VALUES
+('pepe', 'pepe grillo', '123', 1),
+('jorge', 'jorge salas', '1010', 2),
+('alex', 'alex diaz', 'abcd', 3);
+
+
+INSERT INTO producto (nombre_producto, precio_producto) VALUES
+('detergente', 8000),
+('arroz', 1500),
+('jabon', 3000),
+('pasta dental', 3000),
+('saco perro', 12000);
