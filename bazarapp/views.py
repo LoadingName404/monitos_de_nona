@@ -1,76 +1,112 @@
 from django.shortcuts import render, redirect
-from bazarapp.models import Producto, Carrito, Venta
-from .forms import LoginForm
-
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
 from django.contrib import messages
+from .models import Productos
+from .models import Carrito
+
+
+from django.http import HttpResponse
 
 def index(request):
     return render(request, 'index.html')
 
+
 def vendedor(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-    else:
-        form = LoginForm()
+    return render(request, 'vendedor.html')
 
-    return render(request, 'vendedor.html', {'form': form})
-
+from django.shortcuts import render
 
 def jefe_de_ventas(request):
-    return render(request, 'jefe_de_ventas/jefe_de_ventas.html')
+    return render(request, 'jefe_de_ventas.html')
 
-def administracion_productos(request):
-    productos = Producto.objects.all()
-    return render(request, 'jefe_de_ventas/productos/administracion_productos.html', {'productos': productos})
 
-def form_productos(request):
-    return render(request, 'jefe_de_ventas/productos/form_productos.html')
+def lista_productos(request):
+    productos = Productos.objects.all()
+    return render(request, 'lista_productos.html', {'productos': productos})
 
 
 def hacer_venta(request):
     if request.method == 'POST':
-        # Procesar la selección de productos y agregar al carrito
-        carrito = []  # Lista para almacenar los productos seleccionados
+        # Obtener el carrito actual de la sesión o crear uno nuevo
+        carrito = request.session.get('carrito', [])
 
-        for producto in Producto.objects.all():
+        for producto in Productos.objects.all():
             cantidad = request.POST.get(f'cantidad_{producto.id}')
             if cantidad:
                 cantidad = int(cantidad)
                 if cantidad > 0:
-                    carrito.append({'producto': producto, 'cantidad': cantidad})
+                    # Buscar si el producto ya está en el carrito
+                    encontrado = False
+                    for item in carrito:
+                        if item['producto_id'] == producto.id:
+                            item['cantidad'] += cantidad
+                            encontrado = True
+                            break
 
-        # Calcular el IVA y el total
-        iva = 0
-        total = 0
+                    # Si el producto no está en el carrito, agregarlo
+                    if not encontrado:
+                        carrito.append({'producto_id': producto.id, 'cantidad': cantidad})
 
-        for item in carrito:
-            precio = item['producto'].precio
-            cantidad = item['cantidad']
-            subtotal = precio * cantidad
-            iva += (subtotal * 0.12)  # Suponiendo un 12% de IVA
-            total += subtotal
+        if carrito:
+            # Guardar el carrito en la sesión del usuario
+            request.session['carrito'] = carrito
+            messages.success(request, 'Productos agregados al carrito.')
+            return redirect('carrito')
+        else:
+            messages.warning(request, 'No se seleccionaron productos.')
 
-        return render(request, 'carrito.html', {
-            'carrito': carrito,
-            'iva': iva,
-            'total': total,
-        })
-
-    productos = Producto.objects.all()
+    productos = Productos.objects.all()
     return render(request, 'hacer_venta.html', {'productos': productos})
 
-# Nueva vista para mostrar el carrito y generar la boleta
+
 def carrito(request):
-    # Lógica para mostrar el carrito y generar la boleta
-    # Puedes calcular el IVA y el total nuevamente si es necesario
-    productos_seleccionados = []  # Agrega aquí los productos seleccionados
-    iva = 0  # Calcula el IVA
-    total = 0  # Calcula el total
+    carrito = request.session.get('carrito', [])
+    iva = 0
+    total = 0
+    productos_seleccionados = []
+
+    for item in carrito:
+        producto_id = item['producto_id']
+        cantidad = item['cantidad']
+        try:
+            producto = Productos.objects.get(id=producto_id)
+            subtotal = producto.precio * cantidad
+            iva += (subtotal * 0.12)  # Suponiendo un 12% de IVA
+            total += subtotal
+            productos_seleccionados.append({'producto': producto, 'cantidad': cantidad})
+        except Productos.DoesNotExist:
+            messages.warning(request, f'Producto con ID {producto_id} no encontrado.')
 
     return render(request, 'carrito.html', {
-        'productos_seleccionados': productos_seleccionados,
+        'carrito': productos_seleccionados,
         'iva': iva,
         'total': total,
     })
+
+
+def eliminar_del_carrito(request, producto_id):
+    carrito = request.session.get('carrito', [])
+
+    for i, item in enumerate(carrito):
+        if item['producto_id'] == producto_id:
+            del carrito[i]
+            request.session['carrito'] = carrito
+            messages.success(request, 'Producto eliminado del carrito exitosamente.')
+            return redirect('carrito')
+
+    messages.error(request, 'El producto no estaba en el carrito.')
+    return redirect('carrito')
+
+def vaciar_carrito(request):
+    request.session['carrito'] = []
+    messages.success(request, 'Carrito vaciado exitosamente.')
+    return redirect('carrito')
+
+
+
+def generar_boleta(request):
+    # Lógica para generar boleta
+    return HttpResponse("Boleta generada con éxito.")
+
+def generar_factura(request):
+    # Lógica para generar factura
+    return HttpResponse("Factura generada con éxito.")

@@ -1,19 +1,27 @@
 from django.contrib import admin
-from .models import Producto, Jornada, Venta, Carrito
+from .models import Cargo, Productos, Usuarios, Jornadas, Ventas, Carrito
 
 # Register your models here.
 
-@admin.register(Producto)
+@admin.register(Cargo)
+class CargoAdmin(admin.ModelAdmin):
+    list_display = ('nombre',)
+
+@admin.register(Productos)
 class ProductosAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'precio', 'sku')
 
-@admin.register(Jornada)
+@admin.register(Usuarios)
+class UsuariosAdmin(admin.ModelAdmin):
+    list_display = ('nombre_usuario', 'nombre_completo', 'id_cargo')
+
+@admin.register(Jornadas)
 class JornadasAdmin(admin.ModelAdmin):
     list_display = ('estado', 'fecha_inicio', 'fecha_cierre')
 
-@admin.register(Venta)
+@admin.register(Ventas)
 class VentasAdmin(admin.ModelAdmin):
-    list_display = ('fecha', 'usuario', 'id_jornada')
+    list_display = ('fecha', 'id_usuario', 'id_jornada')
 
 @admin.register(Carrito)
 class CarritoAdmin(admin.ModelAdmin):
