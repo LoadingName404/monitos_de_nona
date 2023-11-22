@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Productos
+from .models import Producto
 from .models import Carrito
 
 
@@ -20,7 +20,7 @@ def jefe_de_ventas(request):
 
 
 def lista_productos(request):
-    productos = Productos.objects.all()
+    productos = Producto.objects.all()
     return render(request, 'lista_productos.html', {'productos': productos})
 
 
@@ -29,7 +29,7 @@ def hacer_venta(request):
         # Obtener el carrito actual de la sesión o crear uno nuevo
         carrito = request.session.get('carrito', [])
 
-        for producto in Productos.objects.all():
+        for producto in Producto.objects.all():
             cantidad = request.POST.get(f'cantidad_{producto.id}')
             if cantidad:
                 cantidad = int(cantidad)
@@ -54,7 +54,7 @@ def hacer_venta(request):
         else:
             messages.warning(request, 'No se seleccionaron productos.')
 
-    productos = Productos.objects.all()
+    productos = Producto.objects.all()
     return render(request, 'hacer_venta.html', {'productos': productos})
 
 
@@ -68,12 +68,12 @@ def carrito(request):
         producto_id = item['producto_id']
         cantidad = item['cantidad']
         try:
-            producto = Productos.objects.get(id=producto_id)
+            producto = Producto.objects.get(id=producto_id)
             subtotal = producto.precio * cantidad
             iva += (subtotal * 0.12)  # Suponiendo un 12% de IVA
             total += subtotal
             productos_seleccionados.append({'producto': producto, 'cantidad': cantidad})
-        except Productos.DoesNotExist:
+        except Producto.DoesNotExist:
             messages.warning(request, f'Producto con ID {producto_id} no encontrado.')
 
     return render(request, 'carrito.html', {
