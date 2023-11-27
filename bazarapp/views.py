@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Producto
-from .models import Carrito
+from .forms import FormProducto
 
 
 from django.http import HttpResponse
@@ -16,13 +16,43 @@ def vendedor(request):
 from django.shortcuts import render
 
 def jefe_de_ventas(request):
-    return render(request, 'jefe_de_ventas.html')
+    return render(request, 'jefe_de_ventas/jefe_de_ventas.html')
 
 
-def lista_productos(request):
+def read_productos(request):
     productos = Producto.objects.all()
-    return render(request, 'lista_productos.html', {'productos': productos})
+    data = {'productos':productos}
+    return render(request, 'jefe_de_ventas/productos/read_productos.html', data)
 
+def add_producto(request):
+    form = FormProducto()
+
+    if request.method == "POST":
+        form = FormProducto(request.POST)
+        if form.is_valid():
+            form.save()
+            return read_productos(request)
+
+    data = {'form': form,'valor':'Agregar','desc':'Agregue los datos del productos que desea agregar:'}
+    return render(request, 'jefe_de_ventas/productos/add_producto.html', data)
+
+def edit_producto(request, id):
+    p = Producto.objects.get(id = id)
+    form = FormProducto(instance=p)
+
+    if request.method == "POST":
+        form = FormProducto(request.POST, instance=p)
+        if form.is_valid():
+            form.save()
+            return read_productos(request)
+
+    data = {'form': form,'valor':'Editar','desc':'Modifique los datos del productos que decia cambiar:'}
+    return render(request, 'jefe_de_ventas/productos/add_producto.html', data)
+
+def del_producto(request, id):
+    p = Producto.objects.get(id = id)
+    p.delete()
+    return read_productos(request)
 
 def hacer_venta(request):
     if request.method == 'POST':

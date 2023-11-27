@@ -1,5 +1,7 @@
 from django import forms
+from bazarapp.models import Producto
 
-class LoginForm(forms.Form):
-    username = forms.CharField(label='Nombre de Usuario')
-    password = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+class FormProducto(forms.ModelForm):
+    class Meta:
+        model = Producto
+        fields = '__all__'

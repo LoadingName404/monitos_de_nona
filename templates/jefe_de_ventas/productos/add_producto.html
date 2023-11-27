@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Administracion productos</title>
+  <title>Title</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,17 +14,26 @@
 </head>
 
 <body>
-  <header>
-    <!-- place navbar here -->
+  <header class="bg-dark text-white py-4 text-center">
+    <h1 class="display-4">{{ valor }} producto</h1>
+    <p class="lead">{{ desc }}</p>
   </header>
+
   <main>
     <div class="container">
-      
+      <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <a href="/jefe_de_ventas/read_productos/" class="btn btn-danger">Cancelar</a>
+        <button type="submit" class="btn btn-primary">{{ valor }} Producto</button>
+      </form>
     </div>
   </main>
+
   <footer>
     <!-- place footer here -->
   </footer>
+
   <!-- Bootstrap JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
