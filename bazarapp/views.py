@@ -1,29 +1,52 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Producto
-from .forms import FormProducto
-
-
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponse
+from .models import Producto
+from .forms import FormProducto, FormCarrito
 
 def index(request):
-    return render(request, 'index.html')
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                if user.groups.filter(name='Jefe de ventas').exists():
+                    return jefe_de_ventas(request)
+                elif user.groups.filter(name='Vendedor').exists():
+                    return vendedor(request)
+                else:
+                    return HttpResponse('El usuario ingresado no es ni jefe de ventas ni a vendedor, contactar con administrador')
+            else:
+                messages.error(request, 'Nombre de usuario o contraseña incorrectos.')
+        else:
+            messages.error(request, 'Nombre de usuario o contraseña incorrectos.')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'index.html', {'form': form})
 
+def es_jefe_de_ventas(user):
+    return user.groups.filter(name='Jefe de ventas').exists()
 
-def vendedor(request):
-    return render(request, 'vendedor.html')
+def es_vendedor(user):
+    return user.groups.filter(name='Vendedor').exists()
 
-from django.shortcuts import render
-
+@user_passes_test(es_jefe_de_ventas)
 def jefe_de_ventas(request):
     return render(request, 'jefe_de_ventas/jefe_de_ventas.html')
 
-
+@user_passes_test(es_jefe_de_ventas)
 def read_productos(request):
     productos = Producto.objects.all()
     data = {'productos':productos}
     return render(request, 'jefe_de_ventas/productos/read_productos.html', data)
 
+@user_passes_test(es_jefe_de_ventas)
 def add_producto(request):
     form = FormProducto()
 
@@ -36,6 +59,7 @@ def add_producto(request):
     data = {'form': form,'valor':'Agregar','desc':'Agregue los datos del productos que desea agregar:'}
     return render(request, 'jefe_de_ventas/productos/add_producto.html', data)
 
+@user_passes_test(es_jefe_de_ventas)
 def edit_producto(request, id):
     p = Producto.objects.get(id = id)
     form = FormProducto(instance=p)
@@ -46,13 +70,32 @@ def edit_producto(request, id):
             form.save()
             return read_productos(request)
 
-    data = {'form': form,'valor':'Editar','desc':'Modifique los datos del productos que decia cambiar:'}
+    data = {'form': form,
+            'valor':'Editar',
+            'desc':'Modifique los datos del productos que decia cambiar:'}
     return render(request, 'jefe_de_ventas/productos/add_producto.html', data)
 
+@user_passes_test(es_jefe_de_ventas)
 def del_producto(request, id):
     p = Producto.objects.get(id = id)
     p.delete()
     return read_productos(request)
+
+@user_passes_test(es_vendedor)
+def vendedor(request):
+    return render(request, 'vendedor/vendedor.html')
+
+def add_carrito(request):
+    form = FormCarrito()
+
+    if request.method == "POST":
+        form = FormCarrito(request.POST)
+        if form.is_valid():
+            form.save()
+            return read_productos(request)
+    
+    data = {'form':form}
+    return render(request, 'vendedor/carrito.html', data)
 
 def hacer_venta(request):
     if request.method == 'POST':

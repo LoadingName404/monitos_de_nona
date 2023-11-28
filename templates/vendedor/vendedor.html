@@ -3,7 +3,7 @@
 {% load static %}
 <head>
   <title>Tu Tienda de Monitos - Vendedor</title>
-
+  <!-- Required meta tags -->
   <meta charset="utf-8" />
   <meta
     name="viewport"
@@ -26,7 +26,7 @@
     </div>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">SIVBA</a>
+        <a class="navbar-brand" href="#">SIVBA</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -45,58 +45,48 @@
   </header>
 
   <main>
-    <div class="container mt-4">
+  <div class="container mt-4">
       <div class="row justify-content-center">
-        <div class="col-md-3 mb-4">
-          <div class="card bg-dark mx-auto" style="width: 16rem">
-            <img src="{% static 'informe.jpg' %}" class="card-img-top" alt="Informe de Ventas"/>
+        <div class="col-md-6">
+          <div class="card bg-dark mb-4 mx-auto" style="width: 18rem">
+            <img src="{% static 'venta.jpg' %}" class="card-img-top" alt="Hacer Venta" />
             <div class="card-header bg-primary text-white text-center">
-              <h2 class="mb-0">Informe de Ventas</h2>
+              <h2 class="mb-0">Hacer Venta</h2>
             </div>
-            <div class="card-body text-white text-center">
-              <p>Revisa los informes de Ventas generados automaticamente despues de cada jornada</p>
-              <a href="#" class="btn btn-warning btn-block">Ver Informes de Ventas</a>
+            <div class="card-body text-center text-white">
+              <p>¡Comienza a realizar ventas!</p>
+              <a href="/hacer_venta/" class="btn btn-warning btn-block">
+                Iniciar Venta
+              </a>
             </div>
           </div>
         </div>
-
-        <div class="col-md-3 mb-4">
-          <div class="card bg-dark mx-auto" style="width: 16rem">
-            <img src="{% static 'reponer.jpg' %}" class="card-img-top" alt="Administrar Productos"/>
+        <div class="col-md-6">
+          <div class="card bg-dark mb-4 mx-auto" style="width: 18rem">
+            <img src="{% static 'producto.jpg' %}" class="card-img-top" alt="Revisar Productos" />
             <div class="card-header bg-primary text-white text-center">
-              <h2 class="mb-0">Administrar Productos</h2>
+              <h2 class="mb-0">Revisar Productos</h2>
             </div>
-            <div class="card-body text-white text-center">
-              <p>Ve los productos en inventario, eliminalos, editalos o agrega mas.</p>
-              <a href="read_productos/" class="btn btn-warning btn-block" role="button">Agregar Productos</a>
+            <div class="card-body text-center text-white">
+              <p>¡Revisa la lista de productos disponibles!</p>
+              <a href="/lista_productos/" class="btn btn-warning btn-block">Ver Productos</a>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="col-md-3 mb-4">
-          <div class="card bg-dark mx-auto" style="width: 16rem">
-            <img src="{% static 'reloj.jpg' %}" class="card-img-top" alt="Administrar Jornadas"/>
-            <div class="card-header bg-primary text-white text-center">
-              <h2 class="mb-0">Administrar Jornadas</h2>
-            </div>
-            <div class="card-body text-white text-center">
-              <p>¡Establece la apertura y cierre de la Jornada!</p>
-              <a href="/admin/bazarapp/jornada/add/" class="btn btn-warning btn-block" role="button">Abrir / Cerrar Jornada</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="row justify-content-center mt-4">
-          <div class="col-md-4 text-center">
-            <a href="/" class="btn btn-dark btn-lg btn-block" style="color: white">Volver Al Inicio</a>
-          </div>
+      <div class="row justify-content-center mt-4">
+        <div class="col-md-4 text-center">
+          <a href="/" class="btn btn-dark btn-lg btn-block text-white">Volver Al Inicio</a>
         </div>
       </div>
     </div>
   </main>
 
   <footer class="text-center py-4">
-    <!-- place footer here -->
+    <div class="alert alert-dark" role="alert">
+      Derechos reservados a Grupo SIVBA, INACAP 2023
+    </div>
   </footer>
 
   <!-- Bootstrap JavaScript Libraries -->

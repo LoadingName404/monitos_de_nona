@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
-  <title>Title</title>
+  <title>{{ valor }} productos</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,7 +24,7 @@
       <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
-        <a href="/jefe_de_ventas/read_productos/" class="btn btn-danger">Cancelar</a>
+        <a href="/read_productos/" class="btn btn-danger">Cancelar</a>
         <button type="submit" class="btn btn-primary">{{ valor }} Producto</button>
       </form>
     </div>
