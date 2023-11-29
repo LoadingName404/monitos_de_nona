@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Lista de Jornadas</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    </head>
+
+    <body>
+        <header>
+            <div class="bg-dark text-white py-4 text-center">
+                <h1 class="display-4">Administracion de jornadas</h1>
+                <p class="lead">Selecciona una opción:</p>
+            </div>
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/">SIVBA</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/jefe_de_ventas/">Inicio</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">Administracion</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="container">
+                <div class="alert alert-dark mt-4 text-center" role="alert">
+                    <h2>Jornada actual:</h2>
+                    {% if hay_jornada_abierta %}
+                    {% for ja in hay_jornada_abierta %}
+                    <h3>Fecha de apertura: {{ ja.fecha_inicio }}</h3>
+                    {% endfor %}
+                    {% else %}
+                    <h3 class="text-danger">No hay jornada abierta</h3>
+                    {% endif %}                
+                </div>
+
+                <div class="text-center">
+                    {% if not hay_jornada_abierta %}
+                    <a href="/jefe_de_ventas/abrir_jornada/" class="btn btn-success btn-lg text-white">Abrir nueva jornada</a>
+                    {% else %}
+                    <a href="/jefe_de_ventas/cerrar_jornada/" class="btn btn-danger btn-lg text-white">Cerrar jornada actual</a>
+                    {% endif %}
+                    <a href="/jefe_de_ventas/" class="btn btn-dark btn-lg text-white">Volver al menú</a>
+                </div>
+                <h2>Jornadas anteriores:</h2>
+                <table class="table table-striped table-bordered table-dark">
+                    <thead class="thead-dark text-center">
+                        <tr>
+                            <th>Fecha de apertura</th>
+                            <th>Fecha de cierre</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center tbody-dark">
+                        {% for j in jornadas %}
+                        {% if j.estado == False %}
+                        <tr>
+                            <td>{{ j.fecha_inicio }}</td>
+                            <td>{{ j.fecha_cierre }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <footer>
+            <!-- place footer here -->
+        </footer>
+
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+            integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>

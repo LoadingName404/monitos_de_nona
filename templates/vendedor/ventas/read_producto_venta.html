@@ -15,8 +15,30 @@
 
 <body>
   <header>
-    <!-- place navbar here -->
+    <div class="bg-dark text-white py-4 text-center">
+        <h1 class="display-4">Lista carrito</h1>
+        <p class="lead">No se aun no tengo nada:</p>
+    </div>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">SIVBA</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/vendedor/">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">Administracion</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </header>
+
   <main>
     <div class="container">
       <form method="POST">
