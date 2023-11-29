@@ -54,17 +54,40 @@
   </header>
 
   <main>
-    <div class="container text-center">
-      {% block content %}
-      <h2>Iniciar sesión</h2>
-      <form method="post" action="{% url 'index' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Iniciar sesión</button>
-      </form>
-      {% endblock %}
-    </div>
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+              <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+      
+                  <div class="mb-md-5 mt-md-4 pb-5">
+                  {% block content %}
+                  <h2>Ingresa con tu cuenta</h2>
+                  <form method="post" action="{% url 'index' %}" >
+                    {% csrf_token %}
+                    {{ form.username}}
+                    <div class="form-outline form-white mb-4">
+
+                      <label class="form-label" for="">Nombre de usuario</label>
+                    </div>
+                    {{ form.password}}
+                    <div class="form-outline form-white mb-4">
+
+                      <label class="form-label" for="">Contraseña</label>
+                    </div>
+                    <button class="btn btn-outline-light btn-lg px-5" type="submit">Iniciar sesión</button>
+                  </form>
+                  {% endblock %}
+                </div>
+      
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>        
   </main>
+
+  
 
   <footer class="alert alert-dark text-center py-4 mt-5">
     Derechos reservados a Grupo SIVBA, INACAP 2023
@@ -84,3 +107,6 @@
   ></script>
 </body>
 </html>
+
+
+
