@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <title>Lista de Productos</title>
+    <title>Lista de ventas</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -68,13 +68,13 @@
               <td>{{ v.fecha }}</td>
               <td>${{ v.monto_pagado }}</td>
               <td>{{ v.usuario.username }}</td>
-              {% if v.factura is not None %}
+              {% if v.id_factura is not None %}
               <td>Factura</td>
               {% else %}
               <td>Boleta</td>
               {% endif %}
               <td>
-                <a name="" id="" href="/edit_venta/{{ v.id }}" role="button">Continuar venta</a>
+                <a name="" id="" href="/vendedor/add_producto_venta/{{ v.id }}" role="button">Añadir mas productos</a>
               </td>
             </tr>
             {% endfor %}

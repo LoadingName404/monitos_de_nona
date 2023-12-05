@@ -18,15 +18,10 @@ urlpatterns = [
 
     path('vendedor/', views.vendedor, name='vendedor'),
     path('vendedor/read_productos/', views.only_read_productos, name='only_read_productos'),
-    path('vendedor/add_venta/', views.add_venta, name='add_venta'),
     path('vendedor/read_ventas/', views.read_ventas, name='read_ventas'),
-    path('vendedor/edit_venta/<int:id>', views.edit_venta),
-    path('add_carrito/', views.add_carrito, name='Añadir carrito'),
-    path('hacer_venta/', views.hacer_venta, name='hacer_venta'),
-    path('carrito/', views.carrito, name='carrito'),
-    path('eliminar_del_carrito/<int:producto_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
-    path('vaciar_carrito/', views.vaciar_carrito, name='vaciar_carrito'),
-    path('generar_boleta/', views.generar_boleta, name='generar_boleta'),
-    path('generar_factura/', views.generar_factura, name='generar_factura'),
+    path('vendedor/add_venta/', views.add_venta, name='add_venta'),
+    path('vendedor/add_producto_venta/<int:id>', views.add_producto_venta, name='add_producto_venta'),
+    path('vendedor/edit_producto_venta/<int:id>', views.edit_producto_venta, name='edit_producto_venta'),
+    path('vendedor/add_factura/<int:id>', views.add_factura, name='add_factura'),
 ]
 
