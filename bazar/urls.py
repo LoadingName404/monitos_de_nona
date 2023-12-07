@@ -23,5 +23,7 @@ urlpatterns = [
     path('vendedor/add_producto_venta/<int:id>', views.add_producto_venta, name='add_producto_venta'),
     path('vendedor/edit_producto_venta/<int:id>', views.edit_producto_venta, name='edit_producto_venta'),
     path('vendedor/add_factura/<int:id>', views.add_factura, name='add_factura'),
+
+    path('pdf/', views.pdf_creator, name='pdf'),
 ]
 

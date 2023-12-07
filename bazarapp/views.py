@@ -3,10 +3,14 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import user_passes_test
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 from django.utils import timezone
-from .models import Producto, Venta, Jornada, Carrito, Factura
+from .models import Producto, Venta, Jornada, Carrito
 from .forms import FormProducto, FormFactura
+import io
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
 
 ######################## para comprobar si es jefe de ventas o vendedor ################################
 #                                                                                                      #
@@ -207,3 +211,57 @@ def edit_producto_venta(request, id):
     else:
         data = {'venta':venta, 'productos':productos}
         return render(request, 'vendedor/ventas/add_producto_venta.html', data)
+    
+def read_informes(request):
+    return render(request, 'vendedor/informes/read_informes.html')
+
+def pdf_creator(request):
+    # Obtén la jornada abierta
+    jornada_abierta = Jornada.objects.filter(estado=True).first()
+
+    # Si no hay jornada abierta, maneja el error
+    if jornada_abierta is None:
+        return HttpResponse('No hay jornada abierta')
+
+    # Obtén las ventas de la jornada abierta
+    ventas_factura = Venta.objects.filter(id_jornada=jornada_abierta, id_factura__isnull=False)
+    ventas_boleta = Venta.objects.filter(id_jornada=jornada_abierta, id_factura__isnull=True)
+
+    # Crea el buffer para el PDF
+    buffer = io.BytesIO()
+
+    # Crea el documento PDF
+    doc = SimpleDocTemplate(buffer, pagesize=letter)
+
+    # Crea una lista para los elementos del PDF
+    elements = []
+
+    # Obtiene los estilos de muestra
+    styles = getSampleStyleSheet()
+
+    # Añade un título al PDF
+    title = Paragraph("Ventas de la jornada", styles['Title'])
+    
+    elements.append(title)
+
+    # Añade un espacio
+    elements.append(Spacer(1, 12))
+
+    # Añade la información de cada venta a los elementos del PDF
+    subtitle_factura = Paragraph("Ventas con factura", styles['Heading2'])
+    elements.append(subtitle_factura)
+    for venta in ventas_factura:
+        venta_info = Paragraph(f"Total pagado: {venta.monto_pagado} | Vendedor: {venta.usuario}, | Fecha: {venta.fecha}", styles['Normal'])
+        elements.append(venta_info)
+    subtitle_boleta = Paragraph("Ventas con boleta", styles['Heading2'])
+    elements.append(subtitle_boleta)
+    for venta in ventas_boleta:
+        venta_info = Paragraph(f"Total pagado: {venta.monto_pagado} | Vendedor: {venta.usuario}, | Fecha: {venta.fecha}", styles['Normal'])
+        elements.append(venta_info)
+
+    # Construye el PDF
+    doc.build(elements)
+
+    # Configura la respuesta con el PDF
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename=f"Jornada {jornada_abierta.id}.pdf")
