@@ -1,0 +1,44 @@
+CREATE TABLE Producto (
+    id INT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    precio INT NOT NULL,
+    sku INT
+);
+
+CREATE TABLE Jornada (
+    id INT PRIMARY KEY,
+    estado BOOLEAN NOT NULL,
+    fecha_inicio DATETIME NOT NULL,
+    fecha_cierre DATETIME
+);
+
+CREATE TABLE Factura (
+    id INT PRIMARY KEY,
+    razon_social VARCHAR(200) NOT NULL,
+    rut VARCHAR(12) NOT NULL
+);
+
+CREATE TABLE User (
+    id INT PRIMARY KEY
+);
+
+CREATE TABLE Venta (
+    id INT PRIMARY KEY,
+    fecha DATETIME NOT NULL,
+    monto_pagado INT,
+    usuario_id INT,
+    id_jornada INT,
+    id_factura INT,
+    FOREIGN KEY (usuario_id) REFERENCES User(id),
+    FOREIGN KEY (id_jornada) REFERENCES Jornada(id),
+    FOREIGN KEY (id_factura) REFERENCES Factura(id)
+);
+
+CREATE TABLE Carrito (
+    id INT PRIMARY KEY,
+    id_producto INT NOT NULL,
+    id_venta INT NOT NULL,
+    cantidad_productos INT NOT NULL,
+    FOREIGN KEY (id_producto) REFERENCES Producto(id),
+    FOREIGN KEY (id_venta) REFERENCES Venta(id)
+);
