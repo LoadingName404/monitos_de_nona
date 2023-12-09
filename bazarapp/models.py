@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class Producto(models.Model):
     nombre = models.CharField(max_length=50, null=False, blank=False)
     precio = models.PositiveIntegerField(null=False, blank=False)
-    sku = models.CharField(max_length=20, null=True, blank=True)
+    sku = models.PositiveIntegerField(max_length=20, null=True, blank=True)
 
     def __str__(self):
         return self.nombre
@@ -18,8 +18,11 @@ class Jornada(models.Model):
         return f"Jornada {self.id}"
 
 class Factura(models.Model):
+    direccion = models.CharField(max_length=100, null=False, blank=False)
+    comuna = models.CharField(max_length=20, null=False, blank=False)
     razon_social = models.CharField(max_length=200, null=False, blank=False)
-    rut = models.CharField(max_length=12, null=False, blank=False)
+    rut = models.CharField(max_length=10, null=False, blank=False)
+    fono = models.CharField(max_length=12, null=False, blank=False)
 
     def __str__(self):
         return f"Factura {self.razon_social}"
@@ -30,6 +33,7 @@ class Venta(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
     id_jornada = models.ForeignKey(Jornada, on_delete=models.CASCADE, null=False, blank=False)
     id_factura = models.ForeignKey(Factura, on_delete=models.CASCADE, null=True, blank=True)
+    tipo_documento = models.CharField(max_length=12, null=False, blank=False)
 
     def __str__(self):
         return f"Venta {self.id}"
@@ -37,6 +41,7 @@ class Venta(models.Model):
 class Carrito(models.Model):
     id_producto = models.ForeignKey(Producto, on_delete=models.CASCADE, null=False, blank=False)
     id_venta = models.ForeignKey(Venta, on_delete=models.CASCADE, null=False, blank=False)
+    cantidad_productos = models.PositiveIntegerField(null=False, blank=False)
 
     def __str__(self):
-        return f"Producto {self.id_producto.nombre} de la venta {self.id_venta}"
+        return f"Producto: {self.id_producto.nombre}, Cantidad: {self.cantidad_productos}, Venta: {self.id_venta}"

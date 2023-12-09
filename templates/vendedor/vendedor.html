@@ -17,59 +17,124 @@
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
     crossorigin="anonymous"
   />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  
+    .navbar {
+      margin: 0;
+      padding: 0;
+      background-color: #A46169; /* Color del navbar cambiado a #A46169 */
+      background-image: none;
+    }
+  
+    .navbar a {
+      color: white;
+    }
+  
+    .navbar .nav-link.active {
+      color: white;
+    }
+  
+    .container-fluid-navbar {
+      background-image: url('ruta/a/la/imagen/para/navbar.png');
+      background-size: cover;
+      background-position: center;
+    }
+  
+
+    .background-image {
+      background-image: url('{% static "signbanner.png" %}');
+      background-size: cover;
+      background-position: center;
+    }
+  
+    .gradient-bg {
+      background: linear-gradient(to right, #E2AAFB, #6182E7, #E2AAFB); /* Gradiente de #E2AAFB a #6182E7 y luego de vuelta a #E2AAFB */
+    }
+  
+    .gradient-bg h1, .gradient-bg p {
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .gradient-card {
+      background: linear-gradient(to right, #94A7FF, #5271FF, #94A7FF);
+    }
+
+    .transparent-btn {
+      background: transparent;
+      color: white;
+      border: 1px solid white;
+    }
+
+</style>
+
 </head>
+
 <body>
   <header>
-    <div class="bg-dark text-white py-4 text-center">
-      <h1 class="display-4">¡Bienvenido a Tu Tienda de Monitos de la Nona!</h1>
-      <p class="lead">Selecciona una opción:</p>
+    <div class="bg-dark text-white py-4 text-center gradient-bg">
+      <h1 class="display-6">Menú de Vendedor</h1>
+      <p class="lead">Selecciona la opción del menú que desees</p>
     </div>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
+      <div class="container-fluid-navbar d-flex align-items-center">
         <a class="navbar-brand" href="/">SIVBA</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/vendedor/">Inicio</a>
+              <a class="nav-link active" aria-current="page" href="/">Inicio</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/admin">Administracion</a>
             </li>
           </ul>
         </div>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
       </div>
     </nav>
   </header>
 
-  <main>
-  <div class="container mt-4">
+  <main class="background-image">
+  <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-6">
-          <div class="card bg-dark mb-4 mx-auto" style="width: 18rem">
+          <div class="card bg-dark mx-auto gradient-card" style="width: 18rem">
             <img src="{% static 'carrito.jpg' %}" class="card-img-top" alt="Hacer Venta" />
             <div class="card-header bg-primary text-white text-center">
               <h2 class="mb-0">Hacer Venta</h2>
             </div>
             <div class="card-body text-center text-white">
-              <p>Ve la ventas sin terminar o empieza una nueva</p>
-              <a href="read_ventas/" class="btn btn-warning btn-block">
+              <p>Revisa las ventas o empieza una nueva</p>
+              <a href="read_ventas/" class="btn btn-block transparent-btn">
                 Iniciar Venta
               </a>
             </div>
           </div>
         </div>
         <div class="col-md-6">
-          <div class="card bg-dark mb-4 mx-auto" style="width: 18rem">
+          <div class="card bg-dark mx-auto gradient-card" style="width: 18rem">
             <img src="{% static 'producto.jpg' %}" class="card-img-top" alt="Revisar Productos" />
             <div class="card-header bg-primary text-white text-center">
               <h2 class="mb-0">Revisar Productos</h2>
             </div>
             <div class="card-body text-center text-white">
               <p>¡Revisa la lista de productos disponibles!</p>
-              <a href="/vendedor/read_productos/" class="btn btn-warning btn-block">Ver Productos</a>
+              <a href="/vendedor/read_productos/" class="btn btn-block transparent-btn">Ver Productos</a>
             </div>
           </div>
         </div>
@@ -77,15 +142,15 @@
 
       <div class="row justify-content-center mt-4">
         <div class="col-md-4 text-center">
-          <a href="/" class="btn btn-dark btn-lg btn-block text-white">Volver Al Inicio</a>
+          <a href="/" class="btn btn-primary btn-lg btn-block text-white">Volver Al Inicio</a>
         </div>
       </div>
     </div>
   </main>
 
-  <footer class="text-center py-4">
-    <div class="alert alert-dark" role="alert">
-      Derechos reservados a Grupo SIVBA, INACAP 2023
+  <footer class='mt-3'>
+    <div class="alert alert-dark text-center" role="alert">
+    Derechos reservados a Grupo SIVBA, INACAP 2023
     </div>
   </footer>
 

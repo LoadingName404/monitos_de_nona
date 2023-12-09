@@ -17,17 +17,88 @@
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
     crossorigin="anonymous"
   />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  
+    .navbar {
+      margin: 0;
+      padding: 0;
+      background-color: #A46169; /* Color del navbar cambiado a #A46169 */
+      background-image: none;
+    }
+  
+    .navbar a {
+      color: white;
+    }
+  
+    .navbar .nav-link.active {
+      color: white;
+    }
+  
+    .container-fluid-navbar {
+      background-image: url('ruta/a/la/imagen/para/navbar.png');
+      background-size: cover;
+      background-position: center;
+    }
+  
+    .container-fluid-main {
+      background-image: url('static/signbanner.png');
+      background-size: cover;
+      background-position: center;
+    }
+  
+    .gradient-card {
+      background: linear-gradient(to right, #94A7FF, #5271FF, #94A7FF); /* Gradiente de #94A7FF a #5271FF a #94A7FF */
+    }
+  
+    @keyframes animatedBackground {
+      from { background-position: -100% 0; }
+      to { background-position: 100% 0; }
+    }
+  
+    .animated-bg {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-image: url('static/banner.png');
+      background-size: 130% 100%;
+      animation: animatedBackground 60s linear infinite;
+      height: 500px;
+    }
+  
+    .animated-bg h1, .animated-bg h2 {
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+
 </head>
 
 <body>
   <header>
-    <div class="bg-dark text-white py-4 text-center">
-      <h1 class="display-4">¡Bienvenido a Tu Tienda de Monitos de la Nona!</h1>
-      <p class="lead">Ingresa con tu respectivo Usuario y Contraseña!</p>
+    <div class="bg-dark text-white py-4 text-center animated-bg">
+      <h1 class="display-4">¡Bienvenido a Tu Tienda!</h1>
+      <h2 class="display-6">Monitos de la Nona</h1>
     </div>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
+      <div class="container-fluid-navbar d-flex align-items-center">
         <a class="navbar-brand" href="/">SIVBA</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">Administracion</a>
+            </li>
+          </ul>
+        </div>
         <button
           class="navbar-toggler"
           type="button"
@@ -39,25 +110,15 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Inicio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/admin">Administracion</a>
-            </li>
-          </ul>
-        </div>
       </div>
     </nav>
   </header>
 
   <main>
-        <div class="container py-5 h-100">
+        <div class="container-fluid-main py-5 h-100">
           <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-              <div class="card bg-dark text-white" style="border-radius: 1rem;">
+              <div class="card gradient-card text-white" style="border-radius: 1rem;">
                 <div class="card-body p-5 text-center">
       
                   <div class="mb-md-5 mt-md-4 pb-5">

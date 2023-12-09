@@ -14,12 +14,12 @@ class JornadasAdmin(admin.ModelAdmin):
 
 @admin.register(Venta)
 class VentasAdmin(admin.ModelAdmin):
-    list_display = ('fecha', 'usuario', 'id_jornada')
+    list_display = ('fecha', 'usuario', 'id_jornada', 'id_factura', 'tipo_documento')
 
 @admin.register(Carrito)
 class CarritoAdmin(admin.ModelAdmin):
-    list_display = ('id_producto', 'id_venta')
+    list_display = ('id_producto', 'id_venta', 'cantidad_productos')
 
 @admin.register(Factura)
 class FacturaAdmin(admin.ModelAdmin):
-    list_display = ('razon_social', 'rut')
+    list_display = ('direccion', 'comuna', 'razon_social', 'rut', 'fono')

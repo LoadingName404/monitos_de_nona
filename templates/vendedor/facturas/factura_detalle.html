@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de la Factura</title>
+    <!-- Asegúrate de tener Bootstrap en tu proyecto -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="card text-dark bg-white text-center" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
+        <div class="card-header">
+            Detalles de la Factura
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Factura #{{ factura.id }}</h5>
+            <h2 class="card-title">Comprobante de Factura</h2>
+            <p class="card-text">
+                Fecha: {{ factura.fecha }}<br>
+                Total Pagado: ${{ monto_pagado }}<br>
+                <!-- Agrega aquí los detalles adicionales de la factura -->
+                Dirección: {{ factura.direccion }}<br>
+                Comuna: {{ factura.comuna }}<br>
+                Razón Social: {{ factura.razon_social }}<br>
+                RUT: {{ factura.rut }}<br>
+                Teléfono: {{ factura.fono }}<br>
+                <!-- Fin de los detalles adicionales de la factura -->
+                Productos:
+                <ul class="list-unstyled">
+                    {% for nombre, cantidad in productos.items %}
+                        <li>{{ nombre }}: {{ cantidad }} Unidades</li>
+                    {% endfor %}
+                </ul>
+            </p>
+            <div class="text-center">
+                <img src="{% static 'cod.png' %}" alt="Imagen" class="img-fluid" style="max-width: 30%;">
+            </div>
+        </div>
+        <a href="http://127.0.0.1:8000/vendedor/read_ventas/" class="btn btn-primary mt-3">Volver</a>
+</div>
+</body>
+</html>
