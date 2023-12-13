@@ -1,6 +1,10 @@
 CREATE TABLE Usuario (
     ID INT PRIMARY KEY,
-    -- otros campos definidos por Django
+    nombre_usuario VARCHAR(50) NOT NULL,
+    nombre VARCHAR(50) NOT NULL,
+    apellidos VARCHAR(50) NOT NULL,
+    contraseña VARCHAR(20) NOT NULL
+    cargo VARCHAR(20) NOT NULL,
 );
 
 CREATE TABLE Producto (
