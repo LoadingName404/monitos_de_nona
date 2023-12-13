@@ -4,7 +4,12 @@ from bazarapp.models import Producto, Carrito, Venta, Factura
 class FormProducto(forms.ModelForm):
     class Meta:
         model = Producto
-        fields = '__all__'
+        fields = ['nombre', 'precio', 'sku']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'precio': forms.NumberInput(attrs={'class': 'form-control', 'max': 99999}),
+            'sku': forms.NumberInput(attrs={'class': 'form-control', 'max': 999999999999}),
+        }
 
 class FormCarrito(forms.ModelForm):
     class Meta:
@@ -20,3 +25,4 @@ class FormFactura(forms.ModelForm):
     class Meta:
         model = Factura
         fields = '__all__'
+        

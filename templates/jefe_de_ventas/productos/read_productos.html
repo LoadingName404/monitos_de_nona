@@ -136,8 +136,8 @@
               <td>{{ p.sku }}</td>
               <td>
                 <a name="" id="" class="icon-white" href="/jefe_de_ventas/edit_producto/{{ p.id }}" role="button"><i class="bi bi-pencil"></i></a>
-                <a name="" id="" class="icon-white" href="/jefe_de_ventas/del_producto/{{ p.id }}" role="button"><i class="bi bi-trash"></i></a>
-              </td>
+                <a name="" id="" class="icon-white" href="/jefe_de_ventas/del_producto/{{ p.id }}" role="button" onclick="return confirm('¿Está seguro de eliminar el producto?');"><i class="bi bi-trash"></i></a>
+                </td>
             </tr>
             {% endfor %}
           </tbody>

@@ -71,6 +71,14 @@
       border: 1px solid white;
     }
 
+    .animated-button {
+      transition: transform 0.3s;
+    }
+    
+    .animated-button:hover {
+        transform: scale(1.1);
+    }
+
 </style>
 
 </head>
@@ -154,7 +162,7 @@
 
         <div class="row justify-content-center mt-4">
           <div class="col-md-4 text-center">
-            <a href="/" class="btn btn-primary btn-lg btn-block" style="color: white; margin-bottom: 20px;">Volver Al Inicio</a>
+            <a href="/" class="btn btn-lg btn-block text-white animated-button" style="margin-bottom: 20px; background-color: rgba(0, 123, 255, 0.5);">Cerrar sesión</a>
           </div>
         </div>
       </div>

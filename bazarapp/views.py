@@ -58,7 +58,7 @@ def jefe_de_ventas(request):
 
 @user_passes_test(es_jefe_de_ventas)
 def read_productos(request):
-    productos = Producto.objects.all()
+    productos = Producto.objects.all().order_by('nombre')
     data = {'productos':productos}
     return render(request, 'jefe_de_ventas/productos/read_productos.html', data)
 
@@ -105,7 +105,7 @@ def del_producto(request, id):
 
 @user_passes_test(es_jefe_de_ventas)
 def read_jornadas(request):
-    jornadas = Jornada.objects.all()
+    jornadas = Jornada.objects.all().order_by('-fecha_inicio')
     jornada_abierta = Jornada.objects.filter(estado=True).first()
     data = {'jornadas':jornadas, 'jornada_abierta':jornada_abierta}
     return render(request, 'jefe_de_ventas/jornadas/read_jornadas.html', data)
@@ -135,7 +135,7 @@ def vendedor(request):
     return render(request, 'vendedor/vendedor.html')
 
 def only_read_productos(request):
-    productos = Producto.objects.all()
+    productos = Producto.objects.all().order_by('nombre')
     data = {'productos':productos}
     return render(request, 'vendedor/read_productos.html', data)
 
@@ -146,7 +146,7 @@ def read_ventas(request):
     if not jornada_abierta:
         return render(request, 'vendedor/ventas/jornada_estado_false.html')
     else:
-        ventas = Venta.objects.filter(id_jornada=Jornada.objects.filter(estado=True).first(), monto_pagado__isnull=False)
+        ventas = Venta.objects.filter(id_jornada=Jornada.objects.filter(estado=True).first(), monto_pagado__isnull=False).order_by('-fecha')
         data = {'ventas':ventas}
         return render(request, 'vendedor/ventas/read_ventas.html', data)
 
@@ -160,6 +160,9 @@ def add_venta(request):
         return redirect(f'/vendedor/add_producto_venta/{id_venta}')
     except:
         return render(request, 'vendedor/ventas/jornada_estado_false.html')
+    
+    
+    
     
 def add_producto_venta(request, id):
     venta = Venta.objects.get(id=id)
