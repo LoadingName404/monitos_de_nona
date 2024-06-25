@@ -1,0 +1,18 @@
+
+
+{% block content %}
+    <h1 style="font-size: 2rem; margin-bottom: 20px;">Lista de Críticas</h1>
+
+    <ul style="list-style-type: none; padding: 0;">
+        {% for critica in criticas %}
+            <li style="margin-bottom: 20px; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+                <h3>{{ critica.nombre_pelicula }}</h3>
+                <p>Puntuación: {{ critica.puntuacion }}</p>
+                <a href="{% url 'editar_critica' critica.pk %}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; border: none; border-radius: 5px; margin-right: 10px;">Editar</a>
+                <a href="{% url 'eliminar_critica' critica.pk %}" style="display: inline-block; padding: 10px 20px; background-color: #dc3545; color: #ffffff; text-decoration: none; border: none; border-radius: 5px;">Eliminar</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'agregar_critica' %}" style="display: inline-block; padding: 10px 20px; background-color: #6c757d; color: #ffffff; text-decoration: none; border: none; border-radius: 5px; margin-top: 20px;">Agregar Crítica</a>
+{% endblock %}
